@@ -1,7 +1,7 @@
 taking-javascript-seriously
 ===========================
 
-A talk about how to get a bit more rigorous with your javascript dev
+A talk about how to get a bit more rigorous with your javascript development.
 
 This talk is ready to rock without any changes, just open dist/slides.html in your browser:
 
