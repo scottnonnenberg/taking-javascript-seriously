@@ -1,0 +1,24 @@
+{
+  "name": "taking-javascript-seriously",
+  "version": "0.0.1",
+  "authors": [
+    "Scott Nonnenberg <scott@nonnenberg.com>"
+  ],
+  "description": "A talk about how to treat javascript like your \"real\" development.",
+  "main": "dist/slides.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash": "~2.2.1",
+    "mocha": "~1.13.0",
+    "chai": "~1.8.1",
+    "sinon": "~1.7.3"
+  }
+}

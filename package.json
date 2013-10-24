@@ -1,0 +1,22 @@
+{
+  "name": "taking-javascript-seriously",
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jade": "~0.8.0",
+    "grunt-contrib-watch": "~0.5.3"
+  },
+  "main": "dist/slides.html",
+  "scripts": {
+    "blanket": {
+      "data-cover-only": "src",
+      "data-cover-never": "['node_modules/','bower_components/']"
+    }
+  },
+  "author": "Scott Nonnenberg",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:NiKnight/taking-javascript-seriously.git"
+  }
+}

@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>taking javascript seriously</title><meta name="description" content="A talk about how to make your javascript development more like your &quot;real&quot; development."><meta name="author" content="Scott Nonnenberg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="css/reveal.min.css"><link rel="stylesheet" href="css/default.css" id="theme"><link rel="stylesheet" href="css/zenburn.css"><script>document.write( "<link rel='stylesheet' href='css/" +
+ ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + ".css' type='text/css' media='print'>" );
+ </script><style>.center {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.runner {
+  position: relative;
+}
+a.run {
+  position: absolute;
+  bottom: .5em;
+  right: 2em;
+}
+.reveal a.run:not(.image) {
+  color: white;
+}
+.reveal .spacer {
+  margin-top: 1em;
+}
+.reveal th, .reveal td {
+  padding: .3em;
+}
+.reveal th {
+  font-weight: bold;
+}
+
+</style></head><body><div class="reveal"><div class="slides"><section><h1>Taking Javascript Seriously</h1><h3>You know, more like your 'real' development</h3><h3><a target="_blank" href="https://scottnonnenberg.com">Scott Nonnenberg</a></h3></section><section><section><h1>why take it seriously?</h1><ul><li>More code</li><li>More complex web experiences</li><li>More hard-to-test interactivity</li></ul><aside class="notes">Something
+</aside></section><section><h2>Raise your hand if you...</h2><ul><li>unit test</li><li class="fragment">integration/acceptance test</li><li class="fragment">measure code coverage</li><li class="fragment">run static analysis</li><li class="fragment">run continuous integration</li><li class="fragment">use dependency injection</li><li class="fragment">use the service locator pattern</li></ul><h2 class="spacer">your server code?</h2><aside class="notes">And more stuff to talk about
+</aside></section><section><h1>Do that with your javascript?</h1><h2>Keep those hands up</h2></section><section><h1>Let's dig in</h1></section></section><section><section><h1>Basic tools</h1><h2>nobody writes straight javascript</h2></section><section><h2>jquery</h2><h3>use it? raise your hand</h3><pre><code data-trim contenteditable>$('#id').click(function() {
+  alert('something!');
+});
+
+$.getJSON('http://somewhere', function(data) {
+  alert(data);
+});
+</code></pre></section><section><h2>lodash/underscore</h2><h3>use it? raise your hand</h3><div class="runner"><pre><code data-trim contenteditable>var a = [1, 2, 3, 4, 5];
+var result = _.reject(a, function(item) { return item > 3; });
+console.log(result);
+
+var b = [3, 4, 5, 6, 7];
+var result = _.intersection(a, b);
+console.log(result);
+</code></pre><a href="#" class="run">run</a></div></section><section><h2>mvc/mvvm</h2><h3>use one? raise your hand</h3><ul><li>backbone</li><li>ember</li><li>angular</li><li>lots more!</li></ul><p class="spacer">use <a target="_blank" href="http://todomvc.com/">todomvc</a> to shop around</p><p class="spacer">why wouldn't you? organize your code intelligently!</p></section></section><section><section><h2>open source: a different world</h2><table><tr><th width="50%">XCode/VS/Eclipse</th><th>open source</th></tr><tr><td>big IDE</td><td>text editors</td></tr><tr><td>large built-in set of libaries</td><td>many options with separate communities</td></tr><tr><td>official forums</td><td>usually github</td></tr><tr><td>intellisense</td><td>annotated source</td></tr></table></section><section> <h2>choosing an open source project</h2><h3>activity level</h3><ul><li>date of last release, frequency of releases</li><li>look for open bugs - orphaned? time to resolve?</li><li>date of the last commit</li></ul><h3 class="spacer">size of community</h3><ul><li>stars and forks</li><li>questions/answers on stack overflow</li></ul><h3 class="spacer">fork it, fix it, and pull request it!</h3></section></section><section><h2>other libraries I use</h2><ol><li> <strong>timezone-js</strong></li><li> <strong>easyxdm</strong> - cross-domain communiction</li><li> <strong>spin.js</strong>- non-image progress spinners</li><li><strong>d3.js</strong>- svg-based interactive data visualizations</li><li><strong>socket.io</strong> - websockets, graceful degradation</li></ol><p class="spacer fragment">which brings us to...</p></section><section><section><h2>dependency management</h2><p>how do you manage lots of libraries?</p><div class="fragment"><h3 class="spacer">bower</h3><h3>npm</h3><ul><li>easily download and install</li><li>manage those libraries' dependencies</li><li>check for updates</li></ul></div></section><section><h2>managing versions over time</h2><h3>semantic versioning (semver)</h3><ul><li>X.0.0 for breaking changes</li><li>1.X.0 for addition of features</li><li>1.0.X for bugfixes</li><li class="fragment"><strong>warning</strong>: 0.x.x is flexible</li></ul><p class="spacer fragment">jquery "1.x" or jquery "~1.10.2"</p><p class="spacer fragment">npm allows you to be hardcore: <a target="_blank" href="https://npmjs.org/doc/shrinkwrap.html">shrinkwrap</a></p></section></section><section><h1>back to our project</h1><h2>but we're full TDD, right?</h2></section><section><section><h1>let's set up a test harness</h1></section><section><h2>mocha: test runner</h2><div class="runner"><pre><code data-trim contenteditable>mocha.setup('bdd');
+describe('MyClass', function() {
+  before(function(done) {
+    // initial setup, async because arity > 1
+    done();
+  });
+  
+  beforeEach(function() {
+    // before every test
+  });
+  
+  describe('#method', function() { // nested describe
+    it('should handle a null parameter', function() {
+      // test logic here, throw for failure
+    });
+  });
+});
+</code></pre><a href="#" class="run">run</a></div><p>runs in the browser and on the command line</p></section><section><h2>chai: fluid assertions</h2><div class="runner"><pre><code data-trim contenteditable>var expect = chai.expect;
+
+var x;
+expect(x).not.to.exist;
+
+var data = { x: 6 };
+expect(data).to.have.property('x', 6);
+expect(data).to.deep.equal({x: 6});
+</code></pre><a href="#" class="run">run</a></div></section><section><h2>sinon: stubs and spies</h2><div class="runner"><pre><code data-trim contenteditable>var spy = sinon.spy(String.prototype, 'toUpperCase');
+expect(spy).to.have.property('callCount', 0);
+expect('blah'.toUpperCase()).to.equal('BLAH');
+expect(spy).to.have.property('callCount', 1);
+spy.restore();
+
+var stub = sinon.stub().returns(6);
+expect(stub()).to.equal(6);
+expect(stub).to.have.property('callCount', 1);   
+</code></pre><a href="#" class="run">run</a></div><p class="spacer">it can also redirect $.ajax and sandbox entire browser</p></section><section><h2>blanket: code coverage</h2><p>no instrumentation step!</p><p class="spacer">easy client-side setup</p><pre><code data-trim contenteditable>&lt;script src="blanket.js"&gt;&lt;/script&gt;
+&lt;script src="my-library.js" data-cover&gt;&lt;/script&gt;
+</code></pre><p class="spacer">easy node.js setup          </p><pre><code>mocha --require blanket --reporter html-cov testfile1.js testfile2.js
+
+// in package.json:
+"scripts": {
+  "blanket": {
+    "data-cover-only": "src"
+  }
+}
+</code></pre></section><section><h2>phantomjs: headless browser</h2><ol><li>run tests</li><li>interact with web pages</li><li>capture screenshots</li><li>based on webkit</li></ol></section></section><section><section><h1>Rounding it out</h1></section><section><h2>documentation</h2><h3>groc</h3><p>comments interspersed with source</p><h3 class="spacer">jsdoc</h3><p>meaningful tags</p></section><section><h2>running in a real browser</h2><div class="fragment"><h3 class="spacer">muscula: error capture and reporting</h3><p>note: not compatible with mocha testing</p><p>(both register top-level onerror handlers</p></div><div class="fragment"><h3 class="spacer">script tags at the bottom</h3><a target="_blank" href="http://stackoverflow.com/questions/436411/where-is-the-best-place-to-put-script-tags-in-html-markup">source</a> <a target="_blank" href="http://developer.yahoo.com/performance/rules.html#js_bottom">source</a></div><div class="fragment"><h3 class="spacer">only a few js files</h3><a target="_blank" href="http://stackoverflow.com/questions/5751515/official-references-for-default-values-of-concurrent-http-1-1-connections-per-se">source</a> <a target="_blank" href="http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/">source</a></div></section><section><h1>but how?</h1><h2>want small, single-reponsibility files</h2><h2>don't want a new script tag per file</h2></section></section><section><section><h2>Modules</h2><h3 class="spacer">CommonJS</h3><pre><code>var _ = require('lodash');
+
+module.exports = function(options) {};</code></pre><h3 class="spacer">AMD</h3><pre><code>define(['lodash'], function(_) {
+  return function(options) {};
+});
+</code></pre></section><section><h2>module managers</h2><div class="fragment"><h3 class="spacer">AMD: requirejs and almond.js</h3><p>pro: no build step required; detailed control</p><p>con: boilerplate required for every file</p></div><div class="fragment"><h3 class="spacer">CommonJS: browserify</h3><p>pro: stubs out standard node.js components for you</p><p>con: requires build step to get into browser</p></div><div class="fragment"><h3 class="spacer">Other: google closure compiler</h3><p>pro: can prune unused code</p><p>con: requires build step to get into browser</p></div></section></section><section><h2>dependency injection</h2><p>not a common thing in javascript world. yet.</p><p class="spacer"> <a target="_blank" href="http://docs.angularjs.org/guide/di">Angular </a> - the first mainstream project to take it seriously.</p><p class="spacer">other folks <a target="_blank" href="https://github.com/holt/syringe">are</a> <a target="_blank" href="https://github.com/idottv/dependable">experimenting</a> <a target="_blank" href="https://npmjs.org/browse/keyword/dependency%20injection">with</a> it</p></section><section><h1>finally some code!</h1></section><section><section><h1>but how well do you know javascript?</h1></section><section><h2> falsey vs. truthy</h2><div class="runner"><pre><code data-trim contenteditable>console.log(!!null);
+console.log(!!undefined);
+console.log(!!false);
+console.log(!!0);
+console.log(!!'');
+console.log(!!NaN);
+
+var f = function() {};
+console.log(!!f);
+console.log(!!1);
+console.log(!!'something');
+console.log(!!true);
+</code></pre><a href="#" class="run">run</a></div></section><section><h2> 
+=== vs ==</h2><div class="runner"><pre><code data-trim contenteditable>var o = {a: 0};
+console.log(o.a == '0');
+console.log(o.a == 0);
+console.log(o.a === '0');
+console.log(o.a === 0);
+
+o.a = null;
+console.log(o.a == null);
+delete o.a; // now it's undefined
+console.log(o.a == null);
+
+</code></pre><a href="#" class="run">run</a></div></section><section><h2>functions are objects</h2><div class="runner"><pre><code data-trim contenteditable>var f = function(a) {
+  console.log(arguments);
+}
+
+console.log(typeof f);
+console.log(f);
+console.log(f.length);
+
+f.a = 4;
+console.log(f.a);
+
+f(6, 7);
+f.call(null, 6, 7);
+f.apply(null, [6, 7]);</code></pre><a href="#" class="run">run</a></div></section><section><h2>context and closures</h2><div class="runner"><pre><code data-trim contenteditable>var a = 1;
+var f = function(b) {
+  return function(c) {
+    console.log('a: ' + a + '; b: ' + b + '; c: ' + c);
+  }
+}
+
+var g = f('2');
+g(3);
+g(4);
+
+a = 2;
+g(5);</code></pre><a href="#" class="run">run</a></div></section><section><h2>singled-threaded, always</h2><div class="runner"><pre><code data-trim contenteditable>x = 0;
+
+var first = setInterval(function() {
+  x += 1;
+  console.log(x);
+}, 1);
+var second = setInterval(function() {
+  x -= 1;
+  console.log(x);
+}, 1);
+
+setTimeout(function() {
+  clearInterval(first);
+  clearInterval(second);
+}, 250); </code></pre><a href="#" class="run">run</a></div><p class="spacer">(<a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers">web workers</a> do now allow concurrency, but you don't have access to the same context)</p></section><section><h2>prototype inheritance</h2><div class="runner"><pre><code data-trim contenteditable>function Super(options) { this.a = options.a };
+Super.prototype.f = function() { console.log(this.a); };
+
+function Sub(options) {
+  Super.call(this, options);
+};
+Sub.prototype = Object.create(Super.prototype, {
+  constructor: { value: Sub }
+});
+
+var p = new Super({a: 'super'});
+p.f();
+var c = new Sub({a: 'sub'});
+c.f();
+
+Sub.prototype.g = function() { console.log('post create add!'); };
+c.g();</code></pre><a href="#" class="run">run</a></div></section><section><h2>getters/setters</h2><div class="runner"><pre><code data-trim contenteditable>function Obj() { this.value = 1; };
+
+Object.defineProperty(Obj.prototype, 'property', {
+  get: function() { 
+    return 'computed: ' + this.value;
+  },
+  set: function(value) { 
+    this.value = value;
+  }
+});
+
+var o = new Obj();
+
+console.log(o.property);
+o.property = 2;
+console.log(o.value);
+</code></pre><a href="#" class="run">run</a></div><p class="spacer"><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a> and <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty">Object.defineProperty</a> are <a target="_blank" href="http://en.wikipedia.org/wiki/ECMAScript">ES5</a> features.</p><p class="spacer fragment">which brings us to...</p></section></section><section><section><h1>uneven browser support!</h1><h2>nooo!</h2></section><section><h2>how bad is it?</h2><h3 class="spacer"><a target="_blank" href="http://caniuse.com/#cats=JS_API">caniuse</a></h3><p>support matrix for javascript features, css, svg, html5</p><h3 class="spacer"><a target="_blank" href="http://kangax.github.io/es5-compat-table/">kangax</a></h3><p>detailed es5 feature matrix</p></section><section><h2>the horrible truth</h2><p>overall javascript feature support</p><p><a target="_blank" href="http://caniuse.com/#cats=JS_API"><img src="img/caniuse_javascript_totals.png"></a></p></section><section><h2>browser usage</h2><p><a target="_blank" href="http://caniuse.com/usage_table.php"><img src="img/caniuse_browser_usage.png"></a></p></section><section><h1>all is not lost!</h1></section><section><h2>polyfills to the rescue!</h2><p style="max-width: 20em" class="center"><strong>polyfill</strong>: downloadable code providing functionality not built into a web browser</p><p class="spacer"><a target="_blank" href="http://html5please.com/#js">html5please.com</a></p><p><a target="_blank" href="https://github.com/kriskowal/es5-shim/">es5-shim</a></p><p><a target="_blank" href="https://code.google.com/p/html5shiv/">html5-shiv</a></p></section><section><h2>testing in actual browsers</h2><h3 class="spacer">test tools</h3><p><a target="_blank" href="http://karma-runner.github.io/0.10/index.html">karma</a></p><p><a target="_blank" href="https://github.com/airportyh/testem">Test'em</a></p><h3 class="spacer">services</h3><p><a target="_blank" href="http://crossbrowsertesting.com">crossbrowsertesting.com</a></p><p><a target="_blank" href="http://www.browserstack.com/">browserstack.com</a></p><p><a target="_blank" href="http://www.smashingmagazine.com/2011/08/07/a-dozen-cross-browser-testing-tools/">many more... </a></p></section><section><h1>back to the code</h1></section></section><section><section><h2>this</h2><div class="runner"><pre><code data-trim contenteditable>function Obj() { this.x = 7; };
+Obj.prototype.f = function() { console.log('value: ' + this.x); };
+
+var o = new Obj();
+o.f();
+
+var g = o.f; // pull the method out
+g(); // raw call
+
+g.call(o);
+
+g = _.bind(g, o);
+g();
+
+var nope = Obj(); // forgot the new
+console.log(nope); // undefined!
+console.log(x); // where did this come from?
+</code></pre><a href="#" class="run">run</a></div><p class="spacer fragment">which brings us to...</p></section></section><section><section><h2>strict mode</h2><p>fixing some of the key problems with javascript</p><div class="runner spacer"><pre><code data-trim contenteditable>'use strict';
+
+// these no longer parse
+var broken = function(dupe, dupe) {}; // no duplicate parameters
+var broken = { dupe: 1, dupe: 2 }; // no duplicate keys
+
+with (obj) { x = 4; y = 3; } // no more with
+var x = 015; // you probably don't mean octal syntax
+
+
+// these fail at runtime
+function Obj() { this.x = 7; };
+var nope = Obj(); // this not set to global anymore
+
+x = 5; // using undefined var
+delete Object.prototype; // this would normally fail silently
+</code></pre><a href="#" class="run">run</a></div><p><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode">full docs at MDN</a></p></section><section><h2>strict mode support</h2><p><a target="_blank" href="http://caniuse.com/#feat=use-strict"><img src="img/caniuse_strict_mode.png"></a></p><p class="spacer">you'll need to be a careful, since it changes behavior</p></section></section><section><section><h1>okay, it's a bit tricky</h1><h2>but there are tools to help!</h2></section><section><h2>jshint</h2><ul><li>catch undefined variable usage</li><li>tell you about unused variables</li><li>did you really mean == instead of ===?</li><li>cyclomatic complexity</li><li>force strict mode</li><li>verify indentation</li><li>make sure strings all use one type of quotes</li><li>unreachable code</li></ul><p class="spacer"><a target="_blank" href="http://www.jshint.com/">jshint</a></p><p><a target="_blank" href="http://jslinterrors.com/jshint/"> jslinterrors.com: a useful guide</a></p></section><section><h2>complexityReport.js</h2><p>perhaps you'd like to check the maintainability of your code?</p><p> <a target="_blank" href="https://github.com/philbooth/complexityReport.js"><img src="img/complexity-report.png"></a></p><p> 
+(best implemented using a <a target="_blank" href="https://github.com/vigetlabs/grunt-complexity">grunt task</a>)</p><p class="spacer fragment">which brings us to...</p></section></section><section><h2>grunt: project automation</h2><p><a target="_blank" href="http://gruntjs.com/"><img height="200" border="0" src="img/grunt-logo.png"></a></p><p>tasks available for jshint, mocha, watch, concat/minify, etc.</p><p> <a target="_blank" href="http://gruntjs.com/api/inside-tasks">powerful api</a> for developing your own tasks</p><p>plugs into continuous integration: <a target="_blank" href="http://sideroad.secret.jp/articles/grunt-on-jenkins/">jenkins</a>, <a target="_blank" href="http://manuel.manuelles.nl/blog/2012/06/22/integrate-travis-ci-into-grunt/">travis-ci</a></p></section><section><h1>whew!</h1></section><section><h2>we covered an extreme amount</h2><p>fortunately, there are tools to help you jump in really fast</p><p><a target="_blank" href="http://yeoman.io/"><img height="200" border="0" src="img/yeoman-logo.png"></a></p><pre><code>[sudo] npm install -g yo generator-webapp
+mkdir yeoman-app
+cd yeoman-app
+yo webapp</code></pre><p class="spacer">study it for best practices, improve it, fork it, pull request it!</p><p><a target="_blank" href="http://yeoman.io/community-generators.html">many, many other generators</a></p></section><section><h1>Javascript is pretty great</h1><h2>why not try node.js? :0)</h2></section><section><h1>Thanks</h1><h3>Scott Nonnenberg / <a _target="blank" href="https://scottnonnenberg.com">scottnonnenberg.com</a></h3></section></div></div><script src="js/head.min.js"></script><script src="js/reveal.min.js"></script><script src="js/jquery.min.js"></script><script src="js/lodash.min.js"></script><script src="js/mocha.js"></script><script src="js/chai.js"></script><script src="js/sinon.js"></script><script>var expect = chai.expect;
+
+Reveal.initialize({
+  controls: true,
+  progress: true,
+  history: true,
+  center: true,
+  overview: true,
+  
+  theme: 'default',
+  transition: 'linear',
+  
+  dependencies: [
+    { src: 'js/classList.js', condition: function() { return !document.body.classList; } },
+    { src: 'js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+  ]
+});
+
+var run = function(text) {
+  console.log("*********");
+  try {
+    eval(text);
+  }
+  catch (e) {
+    console.log('error! ' + e.message);
+  }
+}
+
+$('a.run').click(function() {
+  run($(this).parent().find('code').text());
+  return false;
+});
+
+// taken from http://jsfiddle.net/TjXEG/1/
+function getCaretCharacterOffsetWithin(element) {
+  var caretOffset = 0;
+  
+  if (typeof window.getSelection != "undefined") {
+    var range = window.getSelection().getRangeAt(0);
+    var preCaretRange = range.cloneRange();
+    preCaretRange.selectNodeContents(element);
+    preCaretRange.setEnd(range.endContainer, range.endOffset);
+    caretOffset = preCaretRange.toString().length;
+  }
+  else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
+    var textRange = document.selection.createRange();
+    var preCaretTextRange = document.body.createTextRange();
+    preCaretTextRange.moveToElementText(element);
+    preCaretTextRange.setEndPoint("EndToEnd", textRange);
+    caretOffset = preCaretTextRange.text.length;
+  }
+  
+  return caretOffset;
+}
+
+$('code[contenteditable]').keypress(function(e) {
+  var enterCode = 13;
+  var code = e.keyCode || e.which;
+  
+  if(code === enterCode) {
+    var el = $(this).get(0);
+    var pos = getCaretCharacterOffsetWithin(el);
+    var text = $(this).text();
+    
+    if (pos === text.length) {
+      run(text);
+      return false;
+    }
+  }
+});</script></body></html>

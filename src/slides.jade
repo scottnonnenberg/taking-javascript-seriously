@@ -1,0 +1,836 @@
+!!!
+html(lang='en')
+  head
+    meta(charset='utf-8')
+
+    title taking javascript seriously
+
+    meta(name='description', content='A talk about how to make your javascript development more like your "real" development.')
+    meta(name='author', content='Scott Nonnenberg')
+
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black-translucent')
+
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+
+    link(rel='stylesheet', href='css/reveal.min.css')
+    link(rel='stylesheet', href='css/default.css', id='theme')
+    link(rel='stylesheet', href='css/zenburn.css')
+    //- If the query includes 'print-pdf', use the PDF print sheet --
+    script.
+      document.write( "<link rel='stylesheet' href='css/" +
+       ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + ".css' type='text/css' media='print'>" );
+
+    //- if lt IE 9
+    //- script(src='js/html5shiv.js')
+
+    style.
+      .center {
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .runner {
+        position: relative;
+      }
+      a.run {
+        position: absolute;
+        bottom: .5em;
+        right: 2em;
+      }
+      .reveal a.run:not(.image) {
+        color: white;
+      }
+      .reveal .spacer {
+        margin-top: 1em;
+      }
+      .reveal th, .reveal td {
+        padding: .3em;
+      }
+      .reveal th {
+        font-weight: bold;
+      }
+
+
+  body
+    .reveal
+
+      .slides
+        section
+          h1 Taking Javascript Seriously
+          h3 You know, more like your 'real' development
+          h3: a(target='_blank', href='https://scottnonnenberg.com') Scott Nonnenberg
+
+        section
+          section
+            h1 why take it seriously?
+            ul
+              li More code
+              li More complex web experiences
+              li More hard-to-test interactivity
+            aside.notes.
+              Something
+
+          section
+            h2 Raise your hand if you...
+            
+            ul
+              li unit test
+              li.fragment integration/acceptance test
+              li.fragment measure code coverage
+              li.fragment run static analysis
+              li.fragment run continuous integration
+              li.fragment use dependency injection
+              li.fragment use the service locator pattern
+
+            h2.spacer your server code?
+            aside.notes.
+              And more stuff to talk about
+
+          section
+            h1 Do that with your javascript?
+            h2 Keep those hands up
+
+          section
+            h1 Let's dig in
+
+
+        //- section
+        //-   | Why am I asking? I acknowledge that I'm on a journey, just like you. Perhaps I know a lot about this stuff from one perspective, but I still have a lot to learn. Great article in that vein: 
+        //-   a(target='_blank', href='http://www.daedtech.com/how-developers-stop-learning-rise-of-the-expert-beginner') amazing article
+
+        section
+          section
+            h1 Basic tools
+            h2 nobody writes straight javascript
+
+          section
+            h2 jquery
+            h3 use it? raise your hand
+            pre: code(data-trim, contenteditable).
+              $('#id').click(function() {
+                alert('something!');
+              });
+
+              $.getJSON('http://somewhere', function(data) {
+                alert(data);
+              });
+
+          section
+            h2 lodash/underscore
+            h3 use it? raise your hand
+            .runner
+              pre: code(data-trim, contenteditable).
+                var a = [1, 2, 3, 4, 5];
+                var result = _.reject(a, function(item) { return item > 3; });
+                console.log(result);
+
+                var b = [3, 4, 5, 6, 7];
+                var result = _.intersection(a, b);
+                console.log(result);
+
+              a.run(href='#') run
+
+          section
+            h2 mvc/mvvm
+            h3 use one? raise your hand
+            ul
+              li backbone
+              li ember
+              li angular
+              li lots more!
+            p.spacer
+              | use 
+              a(target='_blank', href='http://todomvc.com/') todomvc
+              |  to shop around
+            p.spacer why wouldn't you? organize your code intelligently!
+
+        section
+          section
+            h2 open source: a different world
+            table
+              tr
+                th(width='50%') XCode/VS/Eclipse
+                th open source
+              tr
+                td big IDE
+                td text editors
+              tr
+                td large built-in set of libaries
+                td many options with separate communities
+              tr
+                td official forums
+                td usually github
+              tr
+                td intellisense
+                td annotated source
+
+          section 
+            h2 choosing an open source project
+            h3 activity level
+            ul
+              li date of last release, frequency of releases
+              li look for open bugs - orphaned? time to resolve?
+              li date of the last commit
+            h3.spacer size of community
+            ul
+              li stars and forks
+              li questions/answers on stack overflow
+            
+            h3.spacer fork it, fix it, and pull request it!
+
+        section
+          h2 other libraries I use
+          ol
+            li 
+              strong timezone-js
+            li 
+              strong easyxdm
+              |  - cross-domain communiction
+            li 
+              strong spin.js
+              | - non-image progress spinners
+            li
+              strong d3.js
+              | - svg-based interactive data visualizations
+            li
+              strong socket.io
+              |  - websockets, graceful degradation
+          p.spacer.fragment which brings us to...
+
+        section
+          section
+            h2 dependency management
+            p how do you manage lots of libraries?
+            
+            .fragment
+              h3.spacer bower
+              h3 npm
+
+              ul
+                li easily download and install
+                li manage those libraries' dependencies
+                li check for updates
+
+          section
+            h2 managing versions over time
+            h3 semantic versioning (semver)
+            ul
+              li X.0.0 for breaking changes
+              li 1.X.0 for addition of features
+              li 1.0.X for bugfixes
+              li.fragment
+                strong warning
+                | : 0.x.x is flexible
+            
+            p.spacer.fragment jquery "1.x" or jquery "~1.10.2"
+            
+            p.spacer.fragment
+              | npm allows you to be hardcore: 
+              a(target='_blank', href='https://npmjs.org/doc/shrinkwrap.html') shrinkwrap
+
+        section
+          h1 back to our project
+          h2 but we're full TDD, right?
+
+        section
+          section
+            h1 let's set up a test harness
+            
+          section
+            h2 mocha: test runner
+            .runner
+              pre: code(data-trim, contenteditable).
+                mocha.setup('bdd');
+                describe('MyClass', function() {
+                  before(function(done) {
+                    // initial setup, async because arity > 1
+                    done();
+                  });
+
+                  beforeEach(function() {
+                    // before every test
+                  });
+
+                  describe('#method', function() { // nested describe
+                    it('should handle a null parameter', function() {
+                      // test logic here, throw for failure
+                    });
+                  });
+                });
+
+              a.run(href='#') run
+            p runs in the browser and on the command line
+          
+          section
+            h2 chai: fluid assertions
+            .runner
+              pre: code(data-trim, contenteditable).
+                var expect = chai.expect;
+
+                var x;
+                expect(x).not.to.exist;
+
+                var data = { x: 6 };
+                expect(data).to.have.property('x', 6);
+                expect(data).to.deep.equal({x: 6});
+
+              a.run(href='#') run
+          
+          section
+            h2 sinon: stubs and spies
+            .runner
+              pre: code(data-trim, contenteditable).
+                var spy = sinon.spy(String.prototype, 'toUpperCase');
+                expect(spy).to.have.property('callCount', 0);
+                expect('blah'.toUpperCase()).to.equal('BLAH');
+                expect(spy).to.have.property('callCount', 1);
+                spy.restore();
+
+                var stub = sinon.stub().returns(6);
+                expect(stub()).to.equal(6);
+                expect(stub).to.have.property('callCount', 1);   
+
+              a.run(href='#') run
+            p.spacer it can also redirect $.ajax and sandbox entire browser
+            
+          section
+            h2 blanket: code coverage
+            
+            p no instrumentation step!
+            p.spacer easy client-side setup
+            pre: code(data-trim, contenteditable).
+              &lt;script src="blanket.js"&gt;&lt;/script&gt;
+              &lt;script src="my-library.js" data-cover&gt;&lt;/script&gt;
+            
+            p.spacer easy node.js setup          
+            pre: code.
+              mocha --require blanket --reporter html-cov testfile1.js testfile2.js
+
+              // in package.json:
+              "scripts": {
+                "blanket": {
+                  "data-cover-only": "src"
+                }
+              }
+            
+          section
+            h2 phantomjs: headless browser
+            ol
+              li run tests
+              li interact with web pages
+              li capture screenshots
+              li based on webkit
+
+
+        section
+          section
+            h1 Rounding it out
+
+          section
+            h2 documentation
+            h3 groc
+            p comments interspersed with source
+            h3.spacer jsdoc
+            p meaningful tags
+
+          section
+            h2 running in a real browser
+            .fragment
+              h3.spacer muscula: error capture and reporting
+              p note: not compatible with mocha testing
+              p (both register top-level onerror handlers
+            
+            .fragment
+              h3.spacer script tags at the bottom
+              a(target='_blank', href='http://stackoverflow.com/questions/436411/where-is-the-best-place-to-put-script-tags-in-html-markup') source
+              |  
+              a(target='_blank', href='http://developer.yahoo.com/performance/rules.html#js_bottom') source
+            
+            .fragment
+              h3.spacer only a few js files
+              a(target='_blank', href='http://stackoverflow.com/questions/5751515/official-references-for-default-values-of-concurrent-http-1-1-connections-per-se') source
+              |  
+              a(target='_blank', href='http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/') source
+
+          section
+            h1 but how?
+            h2 want small, single-reponsibility files
+            h2 don't want a new script tag per file
+
+        section
+          section
+            h2 Modules
+            h3.spacer CommonJS
+            pre: code.
+              var _ = require('lodash');
+
+              module.exports = function(options) {};
+            h3.spacer AMD
+            pre: code.
+              define(['lodash'], function(_) {
+                return function(options) {};
+              });
+
+          section
+            h2 module managers
+            .fragment
+              h3.spacer AMD: requirejs and almond.js
+              p pro: no build step required; detailed control
+              p con: boilerplate required for every file
+            .fragment
+              h3.spacer CommonJS: browserify
+              p pro: stubs out standard node.js components for you
+              p con: requires build step to get into browser
+            .fragment
+              h3.spacer Other: google closure compiler
+              p pro: can prune unused code
+              p con: requires build step to get into browser
+
+        section
+          h2 dependency injection
+          p not a common thing in javascript world. yet.
+          p.spacer 
+            a(target='_blank', href='http://docs.angularjs.org/guide/di') Angular 
+            |  - the first mainstream project to take it seriously.
+          p.spacer
+           | other folks 
+           a(target='_blank', href='https://github.com/holt/syringe') are
+           |  
+           a(target='_blank', href='https://github.com/idottv/dependable') experimenting
+           |  
+           a(target='_blank', href='https://npmjs.org/browse/keyword/dependency%20injection') with
+           |  it
+
+        section
+          h1 finally some code!
+        
+        section
+          section
+            h1 but how well do you know javascript?
+
+          section
+            h2  falsey vs. truthy
+            .runner
+              pre: code(data-trim, contenteditable).
+                console.log(!!null);
+                console.log(!!undefined);
+                console.log(!!false);
+                console.log(!!0);
+                console.log(!!'');
+                console.log(!!NaN);
+                
+                var f = function() {};
+                console.log(!!f);
+                console.log(!!1);
+                console.log(!!'something');
+                console.log(!!true);
+
+              a.run(href='#') run
+
+          section
+            h2 
+             | === vs ==
+            .runner
+              pre: code(data-trim, contenteditable).
+                var o = {a: 0};
+                console.log(o.a == '0');
+                console.log(o.a == 0);
+                console.log(o.a === '0');
+                console.log(o.a === 0);
+
+                o.a = null;
+                console.log(o.a == null);
+                delete o.a; // now it's undefined
+                console.log(o.a == null);
+
+
+              a.run(href='#') run
+
+          section
+            h2 functions are objects
+            .runner
+              pre: code(data-trim, contenteditable).
+                var f = function(a) {
+                  console.log(arguments);
+                }
+
+                console.log(typeof f);
+                console.log(f);
+                console.log(f.length);
+
+                f.a = 4;
+                console.log(f.a);
+
+                f(6, 7);
+                f.call(null, 6, 7);
+                f.apply(null, [6, 7]);
+              a.run(href='#') run
+              
+          section
+            h2 context and closures
+            .runner
+              pre: code(data-trim, contenteditable).
+                var a = 1;
+                var f = function(b) {
+                  return function(c) {
+                    console.log('a: ' + a + '; b: ' + b + '; c: ' + c);
+                  }
+                }
+                
+                var g = f('2');
+                g(3);
+                g(4);
+
+                a = 2;
+                g(5);
+              a.run(href='#') run
+            
+          section
+            h2 singled-threaded, always
+            .runner
+              pre: code(data-trim, contenteditable).
+                x = 0;
+
+                var first = setInterval(function() {
+                  x += 1;
+                  console.log(x);
+                }, 1);
+                var second = setInterval(function() {
+                  x -= 1;
+                  console.log(x);
+                }, 1);
+                
+                setTimeout(function() {
+                  clearInterval(first);
+                  clearInterval(second);
+                }, 250); 
+              a.run(href='#') run
+            p.spacer
+              | (
+              a(target='_blank', href='https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers') web workers
+              |  do now allow concurrency, but you don't have access to the same context)
+          
+          section
+            h2 prototype inheritance
+            .runner
+              pre: code(data-trim, contenteditable).
+                function Super(options) { this.a = options.a };
+                Super.prototype.f = function() { console.log(this.a); };
+                
+                function Sub(options) {
+                  Super.call(this, options);
+                };
+                Sub.prototype = Object.create(Super.prototype, {
+                  constructor: { value: Sub }
+                });
+
+                var p = new Super({a: 'super'});
+                p.f();
+                var c = new Sub({a: 'sub'});
+                c.f();
+
+                Sub.prototype.g = function() { console.log('post create add!'); };
+                c.g();
+              a.run(href='#') run
+              
+          section
+            h2 getters/setters
+            .runner
+              pre: code(data-trim, contenteditable).
+                function Obj() { this.value = 1; };
+
+                Object.defineProperty(Obj.prototype, 'property', {
+                  get: function() { 
+                    return 'computed: ' + this.value;
+                  },
+                  set: function(value) { 
+                    this.value = value;
+                  }
+                });
+
+                var o = new Obj();
+                
+                console.log(o.property);
+                o.property = 2;
+                console.log(o.value);
+
+              a.run(href='#') run
+
+            p.spacer
+              a(target='_blank', href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create') Object.create
+              |  and 
+              a(target='_blank', href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty') Object.defineProperty
+              |  are 
+              a(target='_blank', href='http://en.wikipedia.org/wiki/ECMAScript') ES5
+              |  features.
+            p.spacer.fragment which brings us to...
+        
+        section
+          section
+            h1 uneven browser support!
+            h2 nooo!
+
+          section
+            h2 how bad is it?
+            h3.spacer: a(target='_blank', href='http://caniuse.com/#cats=JS_API') caniuse
+            p support matrix for javascript features, css, svg, html5
+            h3.spacer: a(target='_blank', href='http://kangax.github.io/es5-compat-table/') kangax
+            p detailed es5 feature matrix
+
+          section
+            h2 the horrible truth
+            p overall javascript feature support
+            p
+              a(target='_blank', href='http://caniuse.com/#cats=JS_API')
+                img(src='img/caniuse_javascript_totals.png')
+
+          section
+            h2 browser usage
+            p
+              a(target='_blank', href='http://caniuse.com/usage_table.php')
+                img(src='img/caniuse_browser_usage.png')
+
+          section
+            h1 all is not lost!
+          
+          section
+            h2 polyfills to the rescue!
+            p.center(style='max-width: 20em')
+              strong polyfill
+              | : downloadable code providing functionality not built into a web browser
+            p.spacer: a(target='_blank', href='http://html5please.com/#js') html5please.com
+            p: a(target='_blank', href='https://github.com/kriskowal/es5-shim/') es5-shim
+            p: a(target='_blank', href='https://code.google.com/p/html5shiv/') html5-shiv
+
+          section
+            h2 testing in actual browsers
+            
+            h3.spacer test tools
+            p: a(target='_blank', href='http://karma-runner.github.io/0.10/index.html') karma
+            p: a(target='_blank', href='https://github.com/airportyh/testem') Test'em
+
+            h3.spacer services
+            p: a(target='_blank', href='http://crossbrowsertesting.com') crossbrowsertesting.com
+            p: a(target='_blank', href='http://www.browserstack.com/') browserstack.com
+            p: a(target='_blank', href='http://www.smashingmagazine.com/2011/08/07/a-dozen-cross-browser-testing-tools/') many more... 
+              
+          section
+            h1 back to the code
+
+        section
+          section
+            h2 this
+            .runner
+              pre: code(data-trim, contenteditable).
+                function Obj() { this.x = 7; };
+                Obj.prototype.f = function() { console.log('value: ' + this.x); };
+                
+                var o = new Obj();
+                o.f();
+
+                var g = o.f; // pull the method out
+                g(); // raw call
+                
+                g.call(o);
+                
+                g = _.bind(g, o);
+                g();
+
+                var nope = Obj(); // forgot the new
+                console.log(nope); // undefined!
+                console.log(x); // where did this come from?
+
+              a.run(href='#') run
+
+            p.spacer.fragment which brings us to...
+        
+        section
+          section
+            h2 strict mode
+            p fixing some of the key problems with javascript
+            .runner.spacer
+              pre: code(data-trim, contenteditable).
+                'use strict';
+
+                // these no longer parse
+                var broken = function(dupe, dupe) {}; // no duplicate parameters
+                var broken = { dupe: 1, dupe: 2 }; // no duplicate keys
+
+                with (obj) { x = 4; y = 3; } // no more with
+                var x = 015; // you probably don't mean octal syntax
+
+
+                // these fail at runtime
+                function Obj() { this.x = 7; };
+                var nope = Obj(); // this not set to global anymore
+
+                x = 5; // using undefined var
+                delete Object.prototype; // this would normally fail silently
+
+              a.run(href='#') run
+            p: a(target='_blank', href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode') full docs at MDN
+
+          section
+            h2 strict mode support
+            p
+              a(target='_blank', href='http://caniuse.com/#feat=use-strict')
+                img(src='img/caniuse_strict_mode.png')
+            p.spacer you'll need to be a careful, since it changes behavior
+
+        section
+          section
+            h1 okay, it's a bit tricky
+            h2 but there are tools to help!
+          
+          section
+            h2 jshint
+            ul
+              li catch undefined variable usage
+              li tell you about unused variables
+              li did you really mean == instead of ===?
+              li cyclomatic complexity
+              li force strict mode
+              li verify indentation
+              li make sure strings all use one type of quotes
+              li unreachable code
+
+            p.spacer
+              a(target='_blank', href='http://www.jshint.com/') jshint
+            p
+              a(target='_blank', href='http://jslinterrors.com/jshint/')  jslinterrors.com: a useful guide
+
+          section
+            h2 complexityReport.js
+            p perhaps you'd like to check the maintainability of your code?
+            p 
+              a(target='_blank', href='https://github.com/philbooth/complexityReport.js')
+                img(src='img/complexity-report.png')
+            p 
+              | (best implemented using a 
+              a(target='_blank', href='https://github.com/vigetlabs/grunt-complexity') grunt task
+              | )
+            p.spacer.fragment which brings us to...
+
+        section
+          h2 grunt: project automation
+          p
+            a(target='_blank', href='http://gruntjs.com/')
+              img(height='200', border='0', src='img/grunt-logo.png');
+          p tasks available for jshint, mocha, watch, concat/minify, etc.
+          p 
+            a(target='_blank', href='http://gruntjs.com/api/inside-tasks') powerful api
+            |  for developing your own tasks
+          p
+            | plugs into continuous integration: 
+            a(target='_blank', href='http://sideroad.secret.jp/articles/grunt-on-jenkins/') jenkins
+            | , 
+            a(target='_blank', href='http://manuel.manuelles.nl/blog/2012/06/22/integrate-travis-ci-into-grunt/') travis-ci
+
+        section
+          h1 whew!
+
+        section
+          h2 we covered an extreme amount
+          p
+            | fortunately, there are tools to help you jump in really fast
+          p
+            a(target='_blank', href='http://yeoman.io/')
+              img(height='200', border='0', src='img/yeoman-logo.png');
+          pre: code.
+            [sudo] npm install -g yo generator-webapp
+            mkdir yeoman-app
+            cd yeoman-app
+            yo webapp
+          p.spacer study it for best practices, improve it, fork it, pull request it!
+          p: a(target='_blank', href='http://yeoman.io/community-generators.html') many, many other generators
+
+        section
+          h1 Javascript is pretty great
+          h2 why not try node.js? :0)
+
+        section
+          h1 Thanks
+          h3 Scott Nonnenberg / 
+            a(_target='blank', href='https://scottnonnenberg.com') scottnonnenberg.com
+
+    script(src='js/head.min.js')
+    script(src='js/reveal.min.js')
+    script(src='js/jquery.min.js')
+    script(src='js/lodash.min.js')
+
+    script(src='js/mocha.js')
+    script(src='js/chai.js')
+    script(src='js/sinon.js')
+
+    script.
+      var expect = chai.expect;
+
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        overview: true,
+
+        theme: 'default',
+        transition: 'linear',
+
+        dependencies: [
+          { src: 'js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        ]
+      });
+
+      var run = function(text) {
+        console.log("*********");
+        try {
+          eval(text);
+        }
+        catch (e) {
+          console.log('error! ' + e.message);
+        }
+      }
+
+      $('a.run').click(function() {
+        run($(this).parent().find('code').text());
+        return false;
+      });
+
+      // taken from http://jsfiddle.net/TjXEG/1/
+      function getCaretCharacterOffsetWithin(element) {
+        var caretOffset = 0;
+        
+        if (typeof window.getSelection != "undefined") {
+          var range = window.getSelection().getRangeAt(0);
+          var preCaretRange = range.cloneRange();
+          preCaretRange.selectNodeContents(element);
+          preCaretRange.setEnd(range.endContainer, range.endOffset);
+          caretOffset = preCaretRange.toString().length;
+        }
+        else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
+          var textRange = document.selection.createRange();
+          var preCaretTextRange = document.body.createTextRange();
+          preCaretTextRange.moveToElementText(element);
+          preCaretTextRange.setEndPoint("EndToEnd", textRange);
+          caretOffset = preCaretTextRange.text.length;
+        }
+        
+        return caretOffset;
+      }
+
+      $('code[contenteditable]').keypress(function(e) {
+        var enterCode = 13;
+        var code = e.keyCode || e.which;
+        
+        if(code === enterCode) {
+          var el = $(this).get(0);
+          var pos = getCaretCharacterOffsetWithin(el);
+          var text = $(this).text();
+          
+          if (pos === text.length) {
+            run(text);
+            return false;
+          }
+        }
+      });
