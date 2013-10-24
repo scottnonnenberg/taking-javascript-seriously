@@ -26,6 +26,7 @@ grunt jade
 To integrate the latest versions of other depdencies into /dist
 
 ```
+gem install juicer # (sinon build requires it)
 dist.sh
 ```
 
