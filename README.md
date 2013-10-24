@@ -20,14 +20,15 @@ bower install
 To re-generate slides.html:
 
 ```
+npm install -g grunt # (if you don't already have it)
 grunt jade
 ```
 
-To integrate the latest versions of other depdencies into /dist
+To integrate the latest versions of other dependencies into /dist
 
 ```
 gem install juicer # (sinon build requires it)
-dist.sh
+./dist.sh
 ```
 
 ### compile as you edit!
