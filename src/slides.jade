@@ -636,13 +636,13 @@ html(lang='en')
             .runner
               pre: code(data-trim, contenteditable).
                 function Obj() { this.x = 7; };
-                Obj.prototype.f = function() { console.log('value: ' + this.x); };
+                Obj.prototype.f = function() { console.log(this); };
                 
                 var o = new Obj();
                 o.f();
 
                 var g = o.f; // pull the method out
-                g(); // raw call
+                g(); // raw call, gets global context
                 
                 g.call(o);
                 
