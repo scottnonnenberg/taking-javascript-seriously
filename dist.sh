@@ -3,6 +3,9 @@ set -e
 # build jade templates
 grunt jade
 
+# copy images over
+cp img/* dist/img/
+
 # css
 cp bower_components/reveal.js/css/reveal.min.css dist/css/reveal.min.css
 cp bower_components/reveal.js/css/theme/default.css dist/css/default.css
