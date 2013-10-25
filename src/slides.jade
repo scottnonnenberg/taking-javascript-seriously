@@ -69,8 +69,6 @@ html(lang='en')
               li More code
               li More complex web experiences
               li More hard-to-test interactivity
-            aside.notes.
-              Something
 
           section
             h2 Raise your hand if you...
@@ -85,8 +83,6 @@ html(lang='en')
               li.fragment use the service locator pattern
 
             h2.spacer your server code?
-            aside.notes.
-              And more stuff to talk about
 
           section
             h1 Do that with your javascript?
@@ -95,10 +91,6 @@ html(lang='en')
           section
             h1 Let's dig in
 
-
-        //- section
-        //-   | Why am I asking? I acknowledge that I'm on a journey, just like you. Perhaps I know a lot about this stuff from one perspective, but I still have a lot to learn. Great article in that vein: 
-        //-   a(target='_blank', href='http://www.daedtech.com/how-developers-stop-learning-rise-of-the-expert-beginner') amazing article
 
         section
           section
@@ -698,14 +690,13 @@ html(lang='en')
           section
             h2 jshint
             ul
-              li catch undefined variable usage
-              li tell you about unused variables
+              li forgot 'new' keyword?
               li did you really mean == instead of ===?
-              li cyclomatic complexity
+              li warn on use of undeclared variable
+              li never-used variables, unreachable code
+              li cyclomatic complexity, with error threshold
               li force strict mode
-              li verify indentation
-              li make sure strings all use one type of quotes
-              li unreachable code
+              li style: indentation and quote character
 
             p.spacer
               a(target='_blank', href='http://www.jshint.com/') jshint
