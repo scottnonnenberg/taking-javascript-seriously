@@ -390,18 +390,29 @@ html(lang='en')
 
         section
           h2 dependency injection
-          p not a common thing in javascript world. yet.
-          p.spacer 
-            a(target='_blank', href='http://docs.angularjs.org/guide/di') Angular 
-            |  - the first mainstream project to take it seriously.
-          p.spacer
-           | other folks 
-           a(target='_blank', href='https://github.com/holt/syringe') are
-           |  
-           a(target='_blank', href='https://github.com/idottv/dependable') experimenting
-           |  
-           a(target='_blank', href='https://npmjs.org/browse/keyword/dependency%20injection') with
-           |  it
+          pre: code.
+            function Obj(options) {
+              options = options || {};
+
+              this.Database = options.Database || Database;
+              this.database = new this.Database();
+              this.service = options.service || service;
+            }
+
+          .fragment
+            h3.spacer Service Locator Pattern
+            p Not a common thing in javascript world yet.
+            p.spacer 
+              a(target='_blank', href='http://docs.angularjs.org/guide/di') Angular 
+              |  - the first mainstream project to take it seriously.
+            p.spacer
+              | other folks 
+              a(target='_blank', href='https://github.com/holt/syringe') are
+              |  
+              a(target='_blank', href='https://github.com/idottv/dependable') experimenting
+              |  
+              a(target='_blank', href='https://npmjs.org/browse/keyword/dependency%20injection') with
+              |  it
 
         section
           h1 finally some code!
