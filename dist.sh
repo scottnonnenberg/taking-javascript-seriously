@@ -8,15 +8,15 @@ cp img/* dist/img/
 
 # css
 cp bower_components/reveal.js/css/reveal.min.css dist/css/reveal.min.css
-cp bower_components/reveal.js/css/theme/default.css dist/css/default.css
+cp bower_components/reveal.js/css/theme/default.css dist/css/theme/default.css
 cp bower_components/reveal.js/lib/css/zenburn.css dist/css/zenburn.css
 cp bower_components/reveal.js/css/print/pdf.css dist/css/pdf.css
 cp bower_components/reveal.js/css/print/paper.css dist/css/paper.css
 
 # fonts
-cp bower_components/reveal.js/lib/font/league_gothic-webfont.woff lib/font/league_gothic-webfont.woff
-cp bower_components/reveal.js/lib/font/league_gothic-webfont.ttf lib/font/league_gothic-webfont.ttf
-cp bower_components/reveal.js/lib/font/league_gothic-webfont.svg lib/font/league_gothic-webfont.svg
+cp bower_components/reveal.js/lib/font/league_gothic-webfont.woff dist/lib/font/league_gothic-webfont.woff
+cp bower_components/reveal.js/lib/font/league_gothic-webfont.ttf dist/lib/font/league_gothic-webfont.ttf
+cp bower_components/reveal.js/lib/font/league_gothic-webfont.svg dist/lib/font/league_gothic-webfont.svg
 
 # reveal.js
 cp bower_components/reveal.js/lib/js/head.min.js dist/js/head.min.js
