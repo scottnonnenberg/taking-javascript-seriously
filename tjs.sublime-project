@@ -3,7 +3,7 @@
 	[
 		{
 			"path": "."
-			, "folder_exclude_patterns": ["docs", "public", "bower_components", "node_modules"]
+			, "folder_exclude_patterns": ["dist", "docs", "public", "bower_components", "node_modules"]
 			, "file_exclude_patterns": ["*.sublime-workspace", "*.rdb"]
 		}
 	]
