@@ -179,7 +179,7 @@ html(lang='en')
               strong timezone-js
             li 
               strong easyxdm
-              |  - cross-domain communiction
+              |  - cross-domain communication
             li 
               strong spin.js
               |  - non-image progress spinners
@@ -197,8 +197,8 @@ html(lang='en')
             p how do you manage lots of libraries?
             
             .fragment
-              h3.spacer bower
-              h3 npm
+              h3.spacer: a(target='_blank', href='http://bower.io/') bower
+              h3: a(target='_blank', href='https://npmjs.org/doc/install.html') npm
 
               ul
                 li easily download and install
@@ -330,18 +330,21 @@ html(lang='en')
           section
             h2 running in a real browser
             .fragment
-              h3.spacer muscula: error capture and reporting
-              p note: not compatible with mocha testing
-              p (both register top-level onerror handlers
+              h3.spacer
+                a(target='_blank', href='http://www.muscula.com/') muscula
+                | : error capture and reporting
+              p use only for production; breaks mocha testing
             
             .fragment
               h3.spacer script tags at the bottom
+              p script block while they load by default
               a(target='_blank', href='http://stackoverflow.com/questions/436411/where-is-the-best-place-to-put-script-tags-in-html-markup') source
               |  
               a(target='_blank', href='http://developer.yahoo.com/performance/rules.html#js_bottom') source
             
             .fragment
               h3.spacer only a few js files
+              p browsers will only open so many connections to the server
               a(target='_blank', href='http://stackoverflow.com/questions/5751515/official-references-for-default-values-of-concurrent-http-1-1-connections-per-se') source
               |  
               a(target='_blank', href='http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/') source
